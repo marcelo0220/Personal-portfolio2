@@ -8,8 +8,6 @@
     <meta name="keywords" content="développeur web, portfolio, Madagascar, développeur junior, HTML, CSS, JavaScript">
     <meta name="author" content="Marcelo Tolonjanahary">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <style>
         :root {
             --primary: #2c3e50;
@@ -36,6 +34,7 @@
         html {
             scroll-behavior: smooth;
             font-size: 16px;
+            overflow-x: hidden;
         }
 
         body {
@@ -46,6 +45,8 @@
             overflow-x: hidden;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            width: 100%;
+            position: relative;
         }
 
         .container {
@@ -55,7 +56,7 @@
             padding: 0 20px;
         }
 
-        /* Header & Navigation amélioré */
+        /* Header & Navigation - CORRIGÉ */
         header {
             background-color: var(--primary);
             color: var(--text-light);
@@ -116,21 +117,6 @@
             animation: colorPulse 2s ease-in-out infinite;
         }
 
-        .logo::after {
-            content: '';
-            position: absolute;
-            bottom: -2px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary);
-            transition: var(--transition);
-        }
-
-        .logo:hover::after {
-            width: 100%;
-        }
-
         .nav-links {
             display: flex;
             list-style: none;
@@ -178,6 +164,7 @@
             width: 100%;
         }
 
+        /* Menu hamburger - CORRECTION PRINCIPALE */
         .menu-toggle {
             display: none;
             cursor: pointer;
@@ -188,13 +175,14 @@
             transition: var(--transition);
             padding: 10px;
             border-radius: 5px;
+            z-index: 1002;
         }
 
         .menu-toggle:hover {
             background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Hero Section améliorée */
+        /* Hero Section */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -317,7 +305,7 @@
             font-size: 1.1rem;
         }
 
-        /* Sections communes améliorées */
+        /* Sections communes */
         section {
             padding: 100px 0;
             scroll-margin-top: 80px;
@@ -357,7 +345,7 @@
             line-height: 1.8;
         }
 
-        /* About Section améliorée */
+        /* About Section */
         .about-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -452,7 +440,7 @@
             color: var(--text-light);
         }
 
-        /* Projects Section améliorée */
+        /* Projects Section */
         .projects {
             background-color: var(--light);
         }
@@ -573,7 +561,7 @@
             transform: translateX(5px);
         }
 
-        /* Contact Section améliorée */
+        /* Contact Section */
         .contact-content {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -672,7 +660,7 @@
             resize: vertical;
         }
 
-        /* Footer amélioré */
+        /* Footer */
         footer {
             background: linear-gradient(135deg, var(--primary) 0%, #1a2530 100%);
             color: var(--text-light);
@@ -789,29 +777,25 @@
             }
         }
 
-        @keyframes slideInLeft {
+        @keyframes slideIn {
             from {
-                opacity: 0;
-                transform: translateX(-50px);
+                transform: translateX(-100%);
             }
             to {
-                opacity: 1;
                 transform: translateX(0);
             }
         }
 
-        @keyframes slideInRight {
+        @keyframes slideOut {
             from {
-                opacity: 0;
-                transform: translateX(50px);
+                transform: translateX(0);
             }
             to {
-                opacity: 1;
-                transform: translateX(0);
+                transform: translateX(-100%);
             }
         }
 
-        /* Loader amélioré */
+        /* Loader */
         .loader {
             position: fixed;
             top: 0;
@@ -866,43 +850,16 @@
             opacity: 1;
         }
 
-        /* Responsive Design amélioré */
-        @media (max-width: 1200px) {
-            .container {
-                width: 95%;
-            }
-            
-            .about-content,
-            .contact-content {
-                gap: 40px;
-            }
-        }
-
-        @media (max-width: 992px) {
-            .about-content,
-            .contact-content {
-                grid-template-columns: 1fr;
-            }
-            
-            .project-grid {
-                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-                gap: 30px;
-            }
-            
-            .section-title h2 {
-                font-size: 2.2rem;
-            }
-        }
-
+        /* CORRECTION DU MENU MOBILE - Version simplifiée */
         @media (max-width: 768px) {
-            section {
-                padding: 80px 0;
-            }
-            
+            /* Menu mobile corrigé */
             .menu-toggle {
                 display: block;
+                position: relative;
+                z-index: 1003;
             }
             
+            /* Menu mobile simplifié */
             .nav-links {
                 position: fixed;
                 top: 0;
@@ -910,26 +867,51 @@
                 width: 100%;
                 height: 100vh;
                 background: rgba(44, 62, 80, 0.98);
+                backdrop-filter: blur(10px);
                 flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                transform: translateX(-100%);
-                transition: transform 0.5s cubic-bezier(0.77, 0.2, 0.05, 1.0);
-                z-index: 999;
-                backdrop-filter: blur(10px);
-                padding: 100px 20px;
                 gap: 30px;
+                padding: 100px 20px;
+                z-index: 1002;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-100%);
+                transition: all 0.3s ease;
             }
             
             .nav-links.active {
-                transform: translateX(0);
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+            
+            .nav-links li {
+                width: 100%;
+                text-align: center;
             }
             
             .nav-links a {
+                display: block;
                 font-size: 1.4rem;
                 padding: 15px 0;
                 width: 100%;
-                text-align: center;
+            }
+            
+            /* Corps de page */
+            body {
+                position: relative;
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
+            /* S'assurer que le contenu reste visible */
+            .hero,
+            .about,
+            .projects,
+            .contact {
+                position: relative;
+                z-index: 1;
             }
             
             .hero h1 {
@@ -950,6 +932,23 @@
                 flex-direction: column;
                 text-align: center;
             }
+            
+            .about-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .contact-form {
+                padding: 30px 20px;
+            }
+            
+            .hero {
+                min-height: 90vh;
+            }
         }
 
         @media (max-width: 576px) {
@@ -963,18 +962,6 @@
             
             .section-title h2 {
                 font-size: 1.8rem;
-            }
-            
-            .project-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .contact-form {
-                padding: 30px 20px;
-            }
-            
-            .hero {
-                min-height: 90vh;
             }
         }
 
@@ -997,29 +984,6 @@
 
         :focus:not(:focus-visible) {
             outline: none;
-        }
-
-        /* Print styles */
-        @media print {
-            .hero, footer, .social-links, .menu-toggle {
-                display: none;
-            }
-            
-            body {
-                color: #000;
-                background: #fff;
-            }
-            
-            .container {
-                width: 100%;
-                max-width: none;
-                padding: 0;
-            }
-            
-            section {
-                padding: 40px 0;
-                page-break-inside: avoid;
-            }
         }
     </style>
 </head>
@@ -1207,7 +1171,7 @@
                         </div>
                         <div class="contact-text">
                             <h4>Email</h4>
-                            <p><a href=""></a>marcelotolonjanahary@gmail.com</p>
+                            <p>marcelotolonjanahary@gmail.com</p>
                         </div>
                     </div>
                     <div class="contact-item">
@@ -1298,37 +1262,44 @@
             // Précharger les images
             preloadImages();
 
-            // Menu mobile amélioré
+            // Menu mobile SIMPLIFIÉ - CORRECTION
             const menuToggle = document.getElementById('menuToggle');
             const navLinks = document.getElementById('navLinks');
             const navItems = document.querySelectorAll('.nav-links a');
             
-            menuToggle.addEventListener('click', function() {
+            // Gestion simple du menu
+            menuToggle.addEventListener('click', function(e) {
+                e.stopPropagation(); // Empêcher la propagation
                 const isExpanded = navLinks.classList.toggle('active');
                 menuToggle.setAttribute('aria-expanded', isExpanded);
                 menuToggle.querySelector('i').className = isExpanded ? 'fas fa-times' : 'fas fa-bars';
-                
-                // Empêcher le scroll du body quand le menu est ouvert
-                document.body.style.overflow = isExpanded ? 'hidden' : '';
             });
 
             // Fermer le menu en cliquant sur un lien
             navItems.forEach(item => {
-                item.addEventListener('click', () => {
+                item.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     navLinks.classList.remove('active');
                     menuToggle.setAttribute('aria-expanded', 'false');
                     menuToggle.querySelector('i').className = 'fas fa-bars';
-                    document.body.style.overflow = '';
                 });
             });
 
             // Fermer le menu en cliquant à l'extérieur
             document.addEventListener('click', (e) => {
-                if (!navLinks.contains(e.target) && !menuToggle.contains(e.target) && navLinks.classList.contains('active')) {
+                if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
                     navLinks.classList.remove('active');
                     menuToggle.setAttribute('aria-expanded', 'false');
                     menuToggle.querySelector('i').className = 'fas fa-bars';
-                    document.body.style.overflow = '';
+                }
+            });
+
+            // Fermer le menu avec la touche Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
                 }
             });
 
@@ -1406,7 +1377,7 @@
                     return;
                 }
 
-                // Simulation d'envoi (remplacer par appel API réel)
+                // Simulation d'envoi
                 const submitBtn = contactForm.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
                 
@@ -1485,17 +1456,6 @@
                 });
             });
 
-            // Amélioration du focus pour l'accessibilité
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Tab') {
-                    document.body.classList.add('tabbing');
-                }
-            });
-
-            document.addEventListener('click', function() {
-                document.body.classList.remove('tabbing');
-            });
-
             // Gestion du viewport mobile
             function setViewportHeight() {
                 const vh = window.innerHeight * 0.01;
@@ -1504,6 +1464,15 @@
             
             setViewportHeight();
             window.addEventListener('resize', setViewportHeight);
+            
+            // Désactiver le menu si on scroll
+            window.addEventListener('scroll', () => {
+                if (navLinks.classList.contains('active')) {
+                    navLinks.classList.remove('active');
+                    menuToggle.setAttribute('aria-expanded', 'false');
+                    menuToggle.querySelector('i').className = 'fas fa-bars';
+                }
+            });
         });
 
         // Gestion des erreurs de chargement d'images
