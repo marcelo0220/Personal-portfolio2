@@ -1,0 +1,1719 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadaSocial | Plateforme de partage malgache</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --card-bg: #ffffff;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+            --border-radius: 12px;
+        }
+
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 250px 1fr 300px;
+            gap: 20px;
+            padding-top: 20px;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Header */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 30px;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            background-color: #f1f5f9;
+            font-size: 0.9rem;
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            background-color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-icon {
+            position: relative;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 8px;
+            transition: var(--transition);
+        }
+
+        .nav-icon:hover {
+            background-color: #f1f5f9;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .user-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Sidebar gauche */
+        .sidebar-left {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        .sidebar-menu {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px 15px;
+            margin-bottom: 5px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .menu-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .menu-item.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .menu-item i {
+            font-size: 1.2rem;
+            width: 24px;
+            text-align: center;
+        }
+
+        .friends-list {
+            margin-top: 20px;
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .friends-list h3 {
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .friend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .friend-item:hover {
+            background-color: #f1f5f9;
+        }
+
+        .friend-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .friend-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .friend-name {
+            font-weight: 500;
+        }
+
+        .online-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: var(--success);
+            margin-left: auto;
+        }
+
+        /* Contenu principal */
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Création de publication */
+        .create-post {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .post-input {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-input textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .post-input textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .post-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .post-options {
+            display: flex;
+            gap: 15px;
+        }
+
+        .post-option {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .post-option:hover {
+            background-color: #f1f5f9;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* Publications */
+        .post {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .post-header {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .post-author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .post-author-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .post-author-info {
+            flex: 1;
+        }
+
+        .post-author-name {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .post-time {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-content {
+            margin-bottom: 15px;
+        }
+
+        .post-image {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .post-image img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+        }
+
+        .post-stats {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-top: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+            margin-bottom: 15px;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .post-actions-buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .post-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .post-action-btn:hover {
+            background-color: #f1f5f9;
+        }
+
+        /* Sidebar droite */
+        .sidebar-right {
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 100px);
+            overflow-y: auto;
+        }
+
+        /* Suggestions d'amis */
+        .friend-suggestions {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .suggestion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .suggestion-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .suggestion-item:last-child {
+            border-bottom: none;
+        }
+
+        .suggestion-info {
+            flex: 1;
+        }
+
+        .suggestion-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .mutual-friends {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Messagerie */
+        .messenger-widget {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .messenger-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .messenger-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .messenger-tab {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .messenger-tab.active {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .conversation-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .conversation-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .conversation-item:hover, .conversation-item.active {
+            background-color: #f1f5f9;
+        }
+
+        .conversation-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .conversation-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .conversation-info {
+            flex: 1;
+        }
+
+        .conversation-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .last-message {
+            color: var(--gray);
+            font-size: 0.85rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 150px;
+        }
+
+        .message-time {
+            color: var(--gray);
+            font-size: 0.8rem;
+        }
+
+        /* Page de messagerie */
+        .messenger-page {
+            display: none;
+        }
+
+        .messenger-page.active {
+            display: grid;
+            grid-template-columns: 350px 1fr;
+            gap: 0;
+            height: calc(100vh - 80px);
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .conversations-sidebar {
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .conversations-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .conversations-search {
+            margin-top: 15px;
+        }
+
+        .conversations-search input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .conversations-list {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .chat-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .message {
+            display: flex;
+            gap: 10px;
+            max-width: 70%;
+        }
+
+        .message.received {
+            align-self: flex-start;
+        }
+
+        .message.sent {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .message-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .message-content {
+            padding: 12px 15px;
+            border-radius: 18px;
+            background-color: #f1f5f9;
+        }
+
+        .message.sent .message-content {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .message.sent .message-time {
+            text-align: right;
+        }
+
+        .chat-input {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 15px;
+        }
+
+        .chat-input textarea {
+            flex: 1;
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            resize: none;
+            font-family: inherit;
+        }
+
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Page profil */
+        .profile-header {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .profile-cover {
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .profile-info {
+            padding: 20px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-end;
+            margin-top: -50px;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid white;
+            overflow: hidden;
+            background-color: white;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-details {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-bio {
+            color: var(--gray);
+            margin-bottom: 15px;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar-left, .sidebar-right {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-bar {
+                display: none;
+            }
+            
+            .messenger-page.active {
+                grid-template-columns: 1fr;
+            }
+            
+            .conversations-sidebar {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="header-container">
+            <div class="logo" onclick="showPage('accueil')">
+                <i class="fas fa-users"></i>
+                <span>MadaSocial</span>
+            </div>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Rechercher des amis, publications...">
+            </div>
+            
+            <div class="header-actions">
+                <div class="nav-icon" onclick="showPage('accueil')">
+                    <i class="fas fa-home"></i>
+                </div>
+                
+                <div class="nav-icon" onclick="showPage('amis')">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                
+                <div class="nav-icon" onclick="showPage('messagerie')">
+                    <i class="fas fa-comments"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="nav-icon" onclick="showPage('notifications')">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">5</span>
+                </div>
+                
+                <div class="user-avatar" onclick="showPage('profil')">
+                    <img src="https://i.pravatar.cc/150?img=1" alt="Profil">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Accueil -->
+    <div id="accueil" class="page active">
+        <div class="container">
+            <!-- Sidebar gauche -->
+            <div class="sidebar-left">
+                <div class="sidebar-menu">
+                    <div class="menu-item active" onclick="showPage('accueil')">
+                        <i class="fas fa-home"></i>
+                        <span>Fil d'actualité</span>
+                    </div>
+                    <div class="menu-item" onclick="showPage('messagerie')">
+                        <i class="fas fa-comments"></i>
+                        <span>Messagerie</span>
+                        <span class="notification-badge">3</span>
+                    </div>
+                    <div class="menu-item" onclick="showPage('amis')">
+                        <i class="fas fa-user-friends"></i>
+                        <span>Amis</span>
+                    </div>
+                    <div class="menu-item" onclick="showPage('groupes')">
+                        <i class="fas fa-users"></i>
+                        <span>Groupes</span>
+                    </div>
+                    <div class="menu-item" onclick="showPage('evenements')">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Événements</span>
+                    </div>
+                    <div class="menu-item" onclick="showPage('photos')">
+                        <i class="fas fa-images"></i>
+                        <span>Photos</span>
+                    </div>
+                </div>
+                
+                <div class="friends-list">
+                    <h3>Amis en ligne</h3>
+                    <div class="friend-item" onclick="openChat(1)">
+                        <div class="friend-avatar">
+                            <img src="https://i.pravatar.cc/150?img=5" alt="Marie">
+                        </div>
+                        <div class="friend-name">Marie</div>
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="friend-item" onclick="openChat(2)">
+                        <div class="friend-avatar">
+                            <img src="https://i.pravatar.cc/150?img=8" alt="Jean">
+                        </div>
+                        <div class="friend-name">Jean</div>
+                        <div class="online-status"></div>
+                    </div>
+                    <div class="friend-item" onclick="openChat(3)">
+                        <div class="friend-avatar">
+                            <img src="https://i.pravatar.cc/150?img=11" alt="Sophie">
+                        </div>
+                        <div class="friend-name">Sophie</div>
+                        <div class="online-status"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Contenu principal -->
+            <div class="main-content">
+                <!-- Création de publication -->
+                <div class="create-post">
+                    <div class="post-input">
+                        <div class="user-avatar">
+                            <img src="https://i.pravatar.cc/150?img=1" alt="Vous">
+                        </div>
+                        <textarea id="postContent" placeholder="Quoi de neuf, Rakoto?"></textarea>
+                    </div>
+                    <div class="post-actions">
+                        <div class="post-options">
+                            <div class="post-option">
+                                <i class="fas fa-image" style="color: #10b981;"></i>
+                                <span>Photo/Video</span>
+                            </div>
+                            <div class="post-option">
+                                <i class="fas fa-user-tag" style="color: #3b82f6;"></i>
+                                <span>Taguer</span>
+                            </div>
+                            <div class="post-option">
+                                <i class="fas fa-map-marker-alt" style="color: #ef4444;"></i>
+                                <span>Localisation</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="createPost()">Publier</button>
+                    </div>
+                </div>
+                
+                <!-- Publications -->
+                <div id="postsContainer">
+                    <!-- Les publications seront générées par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Sidebar droite -->
+            <div class="sidebar-right">
+                <!-- Suggestions d'amis -->
+                <div class="friend-suggestions">
+                    <div class="suggestion-header">
+                        <h3>Suggestions d'amis</h3>
+                        <a href="#" style="color: var(--primary); font-size: 0.9rem;">Voir tout</a>
+                    </div>
+                    <div class="suggestion-list">
+                        <div class="suggestion-item">
+                            <div class="friend-avatar">
+                                <img src="https://i.pravatar.cc/150?img=12" alt="Nirina">
+                            </div>
+                            <div class="suggestion-info">
+                                <div class="suggestion-name">Nirina</div>
+                                <div class="mutual-friends">8 amis en commun</div>
+                            </div>
+                            <button class="btn btn-primary btn-sm">Ajouter</button>
+                        </div>
+                        <div class="suggestion-item">
+                            <div class="friend-avatar">
+                                <img src="https://i.pravatar.cc/150?img=13" alt="Hery">
+                            </div>
+                            <div class="suggestion-info">
+                                <div class="suggestion-name">Hery</div>
+                                <div class="mutual-friends">5 amis en commun</div>
+                            </div>
+                            <button class="btn btn-primary btn-sm">Ajouter</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Messagerie widget -->
+                <div class="messenger-widget">
+                    <div class="messenger-header">
+                        <h3>Messagerie</h3>
+                        <i class="fas fa-ellipsis-h" style="color: var(--gray); cursor: pointer;"></i>
+                    </div>
+                    <div class="messenger-tabs">
+                        <div class="messenger-tab active" onclick="showChatTab('recent')">Récent</div>
+                        <div class="messenger-tab" onclick="showChatTab('unread')">Non lus</div>
+                    </div>
+                    <div class="conversation-list">
+                        <div class="conversation-item" onclick="openChat(1)">
+                            <div class="conversation-avatar">
+                                <img src="https://i.pravatar.cc/150?img=5" alt="Marie">
+                                <div class="online-status" style="position: absolute; bottom: 0; right: 0;"></div>
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">Marie</div>
+                                <div class="last-message">Salut, ça va?</div>
+                            </div>
+                            <div class="message-time">10 min</div>
+                        </div>
+                        <div class="conversation-item" onclick="openChat(2)">
+                            <div class="conversation-avatar">
+                                <img src="https://i.pravatar.cc/150?img=8" alt="Jean">
+                            </div>
+                            <div class="conversation-info">
+                                <div class="conversation-name">Jean</div>
+                                <div class="last-message">On se voit ce soir?</div>
+                            </div>
+                            <div class="message-time">1h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Messagerie -->
+    <div id="messagerie" class="page">
+        <div class="messenger-page active">
+            <!-- Sidebar des conversations -->
+            <div class="conversations-sidebar">
+                <div class="conversations-header">
+                    <h2>Messagerie</h2>
+                    <div class="conversations-search">
+                        <input type="text" placeholder="Rechercher une conversation...">
+                    </div>
+                </div>
+                <div class="conversations-list">
+                    <!-- Les conversations seront générées par JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Zone de chat -->
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="friend-avatar">
+                        <img src="https://i.pravatar.cc/150?img=5" alt="Marie" id="chatFriendAvatar">
+                    </div>
+                    <div>
+                        <div id="chatFriendName">Marie</div>
+                        <div style="color: var(--success); font-size: 0.9rem;">En ligne</div>
+                    </div>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Les messages seront générés par JavaScript -->
+                </div>
+                
+                <div class="chat-input">
+                    <textarea id="messageInput" placeholder="Écrivez un message..." rows="1"></textarea>
+                    <button class="btn btn-primary" onclick="sendMessage()">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Amis -->
+    <div id="amis" class="page">
+        <div class="container">
+            <div style="grid-column: 1 / -1;">
+                <div style="background-color: var(--card-bg); border-radius: var(--border-radius); padding: 30px; box-shadow: var(--shadow);">
+                    <h1 style="margin-bottom: 30px;">Amis</h1>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px;">
+                        <!-- Les amis seront générés par JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Profil -->
+    <div id="profil" class="page">
+        <div class="container">
+            <div style="grid-column: 1 / -1;">
+                <!-- En-tête du profil -->
+                <div class="profile-header">
+                    <div class="profile-cover"></div>
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <img src="https://i.pravatar.cc/150?img=1" alt="Rakoto">
+                        </div>
+                        <div class="profile-details">
+                            <h1 class="profile-name">Rakoto Andrian</h1>
+                            <p class="profile-bio">Développeur web passionné par la technologie et la culture malgache 🌴</p>
+                            <div class="profile-stats">
+                                <div class="stat-item">
+                                    <div class="stat-value">245</div>
+                                    <div class="stat-label">Publications</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">1.2k</div>
+                                    <div class="stat-label">Amis</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-value">156</div>
+                                    <div class="stat-label">Photos</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary">Modifier le profil</button>
+                    </div>
+                </div>
+                
+                <!-- Contenu du profil -->
+                <div style="display: grid; grid-template-columns: 300px 1fr; gap: 20px;">
+                    <!-- Info profil -->
+                    <div style="background-color: var(--card-bg); border-radius: var(--border-radius); padding: 20px; box-shadow: var(--shadow);">
+                        <h3 style="margin-bottom: 20px;">À propos</h3>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 5px;">📍 Ville</div>
+                            <div>Antananarivo, Madagascar</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 5px;">🎓 Formation</div>
+                            <div>Université d'Antananarivo</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 5px;">💼 Profession</div>
+                            <div>Développeur Web Full-Stack</div>
+                        </div>
+                        <div style="margin-bottom: 15px;">
+                            <div style="font-weight: 600; margin-bottom: 5px;">❤️ Statut</div>
+                            <div>Célibataire</div>
+                        </div>
+                    </div>
+                    
+                    <!-- Publications du profil -->
+                    <div>
+                        <div style="background-color: var(--card-bg); border-radius: var(--border-radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow);">
+                            <h3 style="margin-bottom: 20px;">Publications</h3>
+                            <div id="profilePosts">
+                                <!-- Les publications du profil seront générées ici -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Données initiales
+        const currentUser = {
+            id: 1,
+            name: "Rakoto Andrian",
+            avatar: "https://i.pravatar.cc/150?img=1",
+            bio: "Développeur web passionné par la technologie et la culture malgache 🌴"
+        };
+
+        const friends = [
+            { id: 1, name: "Marie", avatar: "https://i.pravatar.cc/150?img=5", online: true },
+            { id: 2, name: "Jean", avatar: "https://i.pravatar.cc/150?img=8", online: true },
+            { id: 3, name: "Sophie", avatar: "https://i.pravatar.cc/150?img=11", online: true },
+            { id: 4, name: "Nirina", avatar: "https://i.pravatar.cc/150?img=12", online: false },
+            { id: 5, name: "Hery", avatar: "https://i.pravatar.cc/150?img=13", online: false },
+            { id: 6, name: "Lala", avatar: "https://i.pravatar.cc/150?img=15", online: true }
+        ];
+
+        const posts = [
+            {
+                id: 1,
+                authorId: 1,
+                authorName: "Rakoto Andrian",
+                authorAvatar: "https://i.pravatar.cc/150?img=1",
+                content: "Magnifique coucher de soleil à Nosy Be aujourd'hui! 🏝️ #Madagascar #Vacances",
+                image: null,
+                time: "Il y a 2 heures",
+                likes: 42,
+                comments: 8,
+                shares: 3,
+                liked: false
+            },
+            {
+                id: 2,
+                authorId: 2,
+                authorName: "Jean",
+                authorAvatar: "https://i.pravatar.cc/150?img=8",
+                content: "Nouvelle recette de romazava réussie! Qui veut venir goûter? 🍲 #CuisineMalagasy",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                time: "Il y a 5 heures",
+                likes: 28,
+                comments: 12,
+                shares: 2,
+                liked: true
+            },
+            {
+                id: 3,
+                authorId: 3,
+                authorName: "Sophie",
+                authorAvatar: "https://i.pravatar.cc/150?img=11",
+                content: "Juste terminé ma nouvelle sculpture en bois de palissandre. Que pensez-vous? 🎨 #Artisanat #Madagascar",
+                image: "https://images.unsplash.com/photo-1585970480901-90d6bb2a48b5?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+                time: "Hier",
+                likes: 56,
+                comments: 15,
+                shares: 5,
+                liked: false
+            }
+        ];
+
+        const messages = [
+            {
+                id: 1,
+                senderId: 1,
+                receiverId: 2,
+                content: "Salut Jean, ça va?",
+                time: "10:30",
+                sent: true
+            },
+            {
+                id: 2,
+                senderId: 2,
+                receiverId: 1,
+                content: "Salut Rakoto! Oui ça va et toi?",
+                time: "10:32",
+                sent: false
+            },
+            {
+                id: 3,
+                senderId: 1,
+                receiverId: 2,
+                content: "Très bien merci! Tu viens ce soir à la fête?",
+                time: "10:33",
+                sent: true
+            },
+            {
+                id: 4,
+                senderId: 2,
+                receiverId: 1,
+                content: "Oui bien sûr! À quelle heure?",
+                time: "10:35",
+                sent: false
+            }
+        ];
+
+        const conversations = [
+            {
+                id: 1,
+                friendId: 2,
+                friendName: "Marie",
+                friendAvatar: "https://i.pravatar.cc/150?img=5",
+                lastMessage: "Salut, ça va?",
+                time: "10 min",
+                unread: 3
+            },
+            {
+                id: 2,
+                friendId: 3,
+                friendName: "Jean",
+                friendAvatar: "https://i.pravatar.cc/150?img=8",
+                lastMessage: "On se voit ce soir?",
+                time: "1h",
+                unread: 0
+            },
+            {
+                id: 3,
+                friendId: 4,
+                friendName: "Sophie",
+                friendAvatar: "https://i.pravatar.cc/150?img=11",
+                lastMessage: "Merci pour l'aide!",
+                time: "2h",
+                unread: 0
+            }
+        ];
+
+        // Variables d'état
+        let currentChat = conversations[0];
+        let currentPosts = [...posts];
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPosts();
+            renderConversations();
+            renderFriends();
+            renderProfilePosts();
+            setupEventListeners();
+        });
+
+        // Navigation entre pages
+        function showPage(pageId) {
+            // Cacher toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Rendu des publications
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            container.innerHTML = '';
+            
+            currentPosts.forEach(post => {
+                const postElement = createPostElement(post);
+                container.appendChild(postElement);
+            });
+        }
+
+        function createPostElement(post) {
+            const postDiv = document.createElement('div');
+            postDiv.className = 'post';
+            postDiv.id = `post-${post.id}`;
+            postDiv.innerHTML = `
+                <div class="post-header">
+                    <div class="post-author-avatar">
+                        <img src="${post.authorAvatar}" alt="${post.authorName}">
+                    </div>
+                    <div class="post-author-info">
+                        <div class="post-author-name">${post.authorName}</div>
+                        <div class="post-time">${post.time}</div>
+                    </div>
+                </div>
+                <div class="post-content">
+                    <p>${post.content}</p>
+                </div>
+                ${post.image ? `
+                <div class="post-image">
+                    <img src="${post.image}" alt="Publication image">
+                </div>
+                ` : ''}
+                <div class="post-stats">
+                    <div class="post-likes">${post.likes} j'aime</div>
+                    <div class="post-comments">${post.comments} commentaires</div>
+                    <div class="post-shares">${post.shares} partages</div>
+                </div>
+                <div class="post-actions-buttons">
+                    <div class="post-action-btn ${post.liked ? 'liked' : ''}" onclick="likePost(${post.id})">
+                        <i class="fas fa-thumbs-up"></i>
+                        <span>J'aime</span>
+                    </div>
+                    <div class="post-action-btn" onclick="commentOnPost(${post.id})">
+                        <i class="fas fa-comment"></i>
+                        <span>Commenter</span>
+                    </div>
+                    <div class="post-action-btn" onclick="sharePost(${post.id})">
+                        <i class="fas fa-share"></i>
+                        <span>Partager</span>
+                    </div>
+                </div>
+            `;
+            
+            return postDiv;
+        }
+
+        // Créer une nouvelle publication
+        function createPost() {
+            const content = document.getElementById('postContent').value.trim();
+            if (!content) return;
+            
+            const newPost = {
+                id: Date.now(),
+                authorId: currentUser.id,
+                authorName: currentUser.name,
+                authorAvatar: currentUser.avatar,
+                content: content,
+                image: null,
+                time: "À l'instant",
+                likes: 0,
+                comments: 0,
+                shares: 0,
+                liked: false
+            };
+            
+            currentPosts.unshift(newPost);
+            renderPosts();
+            document.getElementById('postContent').value = '';
+            
+            // Afficher une notification
+            showNotification("Publication créée avec succès!");
+        }
+
+        // Interactions avec les publications
+        function likePost(postId) {
+            const post = currentPosts.find(p => p.id === postId);
+            if (post) {
+                if (post.liked) {
+                    post.likes--;
+                    post.liked = false;
+                } else {
+                    post.likes++;
+                    post.liked = true;
+                }
+                
+                const postElement = document.getElementById(`post-${postId}`);
+                const likeBtn = postElement.querySelector('.post-action-btn:first-child');
+                likeBtn.classList.toggle('liked');
+                
+                const likesCount = postElement.querySelector('.post-likes');
+                likesCount.textContent = `${post.likes} j'aime`;
+            }
+        }
+
+        function commentOnPost(postId) {
+            const comment = prompt("Votre commentaire:");
+            if (comment) {
+                const post = currentPosts.find(p => p.id === postId);
+                if (post) {
+                    post.comments++;
+                    const postElement = document.getElementById(`post-${postId}`);
+                    const commentsCount = postElement.querySelector('.post-comments');
+                    commentsCount.textContent = `${post.comments} commentaires`;
+                }
+            }
+        }
+
+        function sharePost(postId) {
+            const post = currentPosts.find(p => p.id === postId);
+            if (post) {
+                post.shares++;
+                const postElement = document.getElementById(`post-${postId}`);
+                const sharesCount = postElement.querySelector('.post-shares');
+                sharesCount.textContent = `${post.shares} partages`;
+                
+                showNotification("Publication partagée!");
+            }
+        }
+
+        // Messagerie
+        function renderConversations() {
+            const container = document.querySelector('.conversations-list');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            conversations.forEach(conv => {
+                const convElement = document.createElement('div');
+                convElement.className = `conversation-item ${conv.id === currentChat.id ? 'active' : ''}`;
+                convElement.innerHTML = `
+                    <div class="conversation-avatar">
+                        <img src="${conv.friendAvatar}" alt="${conv.friendName}">
+                        ${conv.unread > 0 ? '<div class="notification-badge">' + conv.unread + '</div>' : ''}
+                    </div>
+                    <div class="conversation-info">
+                        <div class="conversation-name">${conv.friendName}</div>
+                        <div class="last-message">${conv.lastMessage}</div>
+                    </div>
+                    <div class="message-time">${conv.time}</div>
+                `;
+                convElement.addEventListener('click', () => openChat(conv.id));
+                container.appendChild(convElement);
+            });
+        }
+
+        function openChat(conversationId) {
+            const conversation = conversations.find(c => c.id === conversationId);
+            if (!conversation) return;
+            
+            currentChat = conversation;
+            showPage('messagerie');
+            
+            // Mettre à jour l'interface du chat
+            document.getElementById('chatFriendName').textContent = conversation.friendName;
+            document.getElementById('chatFriendAvatar').src = conversation.friendAvatar;
+            
+            // Charger les messages
+            renderChatMessages();
+            
+            // Marquer comme lu
+            conversation.unread = 0;
+            renderConversations();
+            
+            // Mettre à jour le widget de messagerie
+            updateMessengerWidget();
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            container.innerHTML = '';
+            
+            // Filtrer les messages pour cette conversation
+            const chatMessages = messages.filter(msg => 
+                (msg.senderId === currentUser.id && msg.receiverId === currentChat.friendId) ||
+                (msg.senderId === currentChat.friendId && msg.receiverId === currentUser.id)
+            );
+            
+            chatMessages.forEach(msg => {
+                const isSent = msg.senderId === currentUser.id;
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+                messageDiv.innerHTML = `
+                    <div class="message-avatar">
+                        <img src="${isSent ? currentUser.avatar : currentChat.friendAvatar}" 
+                             alt="${isSent ? currentUser.name : currentChat.friendName}">
+                    </div>
+                    <div>
+                        <div class="message-content">${msg.content}</div>
+                        <div class="message-time">${msg.time}</div>
+                    </div>
+                `;
+                container.appendChild(messageDiv);
+            });
+            
+            // Scroll vers le bas
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const content = input.value.trim();
+            
+            if (!content) return;
+            
+            const newMessage = {
+                id: Date.now(),
+                senderId: currentUser.id,
+                receiverId: currentChat.friendId,
+                content: content,
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                sent: true
+            };
+            
+            messages.push(newMessage);
+            input.value = '';
+            
+            // Mettre à jour la conversation
+            const conversation = conversations.find(c => c.id === currentChat.id);
+            if (conversation) {
+                conversation.lastMessage = content;
+                conversation.time = "À l'instant";
+                conversation.unread = 0;
+            }
+            
+            // Réponse automatique (simulée)
+            setTimeout(() => {
+                const autoReply = {
+                    id: Date.now() + 1,
+                    senderId: currentChat.friendId,
+                    receiverId: currentUser.id,
+                    content: getRandomResponse(),
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+                    sent: false
+                };
+                
+                messages.push(autoReply);
+                conversation.lastMessage = autoReply.content;
+                conversation.time = "À l'instant";
+                conversation.unread = 1;
+                
+                renderChatMessages();
+                renderConversations();
+                updateMessengerWidget();
+            }, 1000);
+            
+            renderChatMessages();
+            renderConversations();
+            updateMessengerWidget();
+        }
+
+        function getRandomResponse() {
+            const responses = [
+                "D'accord!",
+                "Intéressant!",
+                "Je vois",
+                "Haha oui",
+                "On se voit bientôt alors",
+                "Merci pour l'info",
+                "Je suis d'accord",
+                "Ça marche!"
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
+
+        function updateMessengerWidget() {
+            // Mettre à jour le widget de messagerie dans la sidebar
+            const unreadCount = conversations.reduce((total, conv) => total + conv.unread, 0);
+            const badge = document.querySelector('.nav-icon:nth-child(3) .notification-badge');
+            if (badge) {
+                badge.textContent = unreadCount;
+                badge.style.display = unreadCount > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Amis
+        function renderFriends() {
+            const container = document.querySelector('#amis .container > div > div');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            friends.forEach(friend => {
+                const friendCard = document.createElement('div');
+                friendCard.className = 'friend-card';
+                friendCard.style.cssText = `
+                    background-color: var(--card-bg);
+                    border-radius: var(--border-radius);
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    gap: 15px;
+                `;
+                friendCard.innerHTML = `
+                    <div class="friend-avatar" style="width: 100px; height: 100px;">
+                        <img src="${friend.avatar}" alt="${friend.name}">
+                        ${friend.online ? '<div class="online-status" style="position: absolute; bottom: 5px; right: 5px;"></div>' : ''}
+                    </div>
+                    <div style="text-align: center;">
+                        <div style="font-weight: 600; margin-bottom: 5px;">${friend.name}</div>
+                        <div style="color: ${friend.online ? 'var(--success)' : 'var(--gray)'}; font-size: 0.9rem;">
+                            ${friend.online ? 'En ligne' : 'Hors ligne'}
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 10px; width: 100%;">
+                        <button class="btn btn-primary btn-sm" style="flex: 1;" onclick="openChat(${friend.id})">
+                            <i class="fas fa-comment"></i> Message
+                        </button>
+                        <button class="btn btn-outline btn-sm" style="flex: 1;">
+                            <i class="fas fa-user-times"></i> Retirer
+                        </button>
+                    </div>
+                `;
+                container.appendChild(friendCard);
+            });
+        }
+
+        // Profil
+        function renderProfilePosts() {
+            const container = document.getElementById('profilePosts');
+            if (!container) return;
+            
+            const userPosts = currentPosts.filter(post => post.authorId === currentUser.id);
+            
+            if (userPosts.length === 0) {
+                container.innerHTML = '<p style="text-align: center; color: var(--gray);">Aucune publication pour le moment</p>';
+                return;
+            }
+            
+            userPosts.forEach(post => {
+                const postElement = createPostElement(post);
+                container.appendChild(postElement);
+            });
+        }
+
+        // Configuration des événements
+        function setupEventListeners() {
+            // Gestion de la saisie de message (enter pour envoyer)
+            const messageInput = document.getElementById('messageInput');
+            if (messageInput) {
+                messageInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                        e.preventDefault();
+                        sendMessage();
+                    }
+                });
+                
+                // Auto-resize du textarea
+                messageInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+            
+            // Gestion du textarea de publication
+            const postInput = document.getElementById('postContent');
+            if (postInput) {
+                postInput.addEventListener('input', function() {
+                    this.style.height = 'auto';
+                    this.style.height = (this.scrollHeight) + 'px';
+                });
+            }
+        }
+
+        function showChatTab(tab) {
+            // Implémentation simple pour changer d'onglet dans le widget
+            const tabs = document.querySelectorAll('.messenger-tab');
+            tabs.forEach(t => t.classList.remove('active'));
+            
+            if (tab === 'recent') {
+                tabs[0].classList.add('active');
+            } else {
+                tabs[1].classList.add('active');
+            }
+        }
+
+        function showNotification(message) {
+            // Créer une notification temporaire
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 15px 20px;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow-lg);
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Ajouter des styles d'animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            
+            .liked {
+                color: var(--primary);
+            }
+            
+            .post-action-btn.liked i {
+                color: var(--primary);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

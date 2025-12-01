@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MadaShop | Votre boutique malgache en ligne</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variables CSS */
+        :root {
+            --primary: #e11d48;
+            --primary-dark: #be123c;
+            --secondary: #f59e0b;
+            --accent: #059669;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #dc2626;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --gray: #64748b;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s ease;
+            --border-radius: 8px;
+        }
+
+        /* Reset et styles de base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Header et Navigation */
+        header {
+            background-color: var(--card-bg);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .logo i {
+            font-size: 1.8rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .cart-icon {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background-color: var(--danger);
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-google {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+        }
+
+        .btn-google:hover {
+            background-color: #3367d6;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+
+        /* Section Produits */
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .category-filters {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 10px 20px;
+            background: none;
+            border: 1px solid var(--primary);
+            border-radius: 50px;
+            color: var(--primary);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .category-btn.active, .category-btn:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+        }
+
+        .product-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .product-image {
+            height: 200px;
+            background-color: #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gray);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            color: var(--gray);
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+
+        .product-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+        }
+
+        /* Panier */
+        .cart-modal {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 380px;
+            height: 100vh;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            transition: var(--transition);
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-modal.active {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+
+        .cart-items {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .cart-item-image {
+            width: 70px;
+            height: 70px;
+            background-color: #e2e8f0;
+            border-radius: var(--border-radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--gray);
+        }
+
+        .cart-item-details {
+            flex: 1;
+        }
+
+        .cart-item-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .cart-item-price {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .cart-item-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+        }
+
+        .quantity-btn {
+            width: 30px;
+            height: 30px;
+            border: 1px solid #e2e8f0;
+            background: none;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cart-item-quantity {
+            font-weight: 600;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .remove-item {
+            color: var(--danger);
+            background: none;
+            border: none;
+            cursor: pointer;
+            margin-left: auto;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        .cart-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* Overlay */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+        }
+
+        .overlay.active {
+            display: block;
+        }
+
+        /* Pages d'authentification */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 40px 0;
+        }
+
+        .auth-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-lg);
+            padding: 40px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-title {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .auth-subtitle {
+            color: var(--gray);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(225, 29, 72, 0.1);
+        }
+
+        .auth-footer {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .auth-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .auth-link:hover {
+            text-decoration: underline;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            color: var(--gray);
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .divider span {
+            padding: 0 15px;
+        }
+
+        /* Badge promotion */
+        .promo-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--secondary);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .product-card {
+            position: relative;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .cart-modal {
+                width: 100%;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+            
+            .auth-card {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo" onclick="showPage('accueil')">
+                <i class="fas fa-store"></i>
+                <span>MadaShop</span>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a onclick="showPage('accueil')"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a onclick="showPage('produits')"><i class="fas fa-tshirt"></i> Vêtements</a></li>
+                <li><a onclick="showPage('produits')"><i class="fas fa-utensils"></i> Produits Locaux</a></li>
+                <li><a onclick="showPage('produits')"><i class="fas fa-gem"></i> Artisanat</a></li>
+                <li><a onclick="showPage('produits')"><i class="fas fa-mobile-alt"></i> Électronique</a></li>
+            </ul>
+            
+            <div class="header-actions">
+                <div class="cart-icon" id="cartIcon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-count">0</span>
+                </div>
+                <div class="user-info" id="userInfo" style="display: none;">
+                    <div class="user-avatar" id="userAvatar">U</div>
+                    <span id="userName">Utilisateur</span>
+                </div>
+                <button class="btn btn-outline" id="loginBtn" onclick="showPage('connexion')">
+                    <i class="fas fa-user"></i> Connexion
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Page Accueil -->
+    <section id="accueil" class="page active">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="container">
+                <h1>Bienvenue chez MadaShop</h1>
+                <p>Découvrez les meilleurs produits malgaches. Livraison rapide dans toute l'île. Paiement en Ariary.</p>
+                <button class="btn btn-primary" onclick="showPage('produits')">
+                    <i class="fas fa-shopping-bag"></i> Découvrir nos produits
+                </button>
+            </div>
+        </section>
+
+        <!-- Section Produits -->
+        <section class="container">
+            <h2 class="section-title">Nos Produits Populaires</h2>
+            
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">Tous</button>
+                <button class="category-btn" data-category="vetements">Vêtements</button>
+                <button class="category-btn" data-category="alimentation">Alimentation</button>
+                <button class="category-btn" data-category="artisanat">Artisanat</button>
+                <button class="category-btn" data-category="electronique">Électronique</button>
+            </div>
+            
+            <div class="products-grid" id="productsGrid">
+                <!-- Les produits seront générés par JavaScript -->
+            </div>
+        </section>
+    </section>
+
+    <!-- Page Produits -->
+    <section id="produits" class="page">
+        <section class="container" style="padding-top: 40px;">
+            <h2 class="section-title">Tous nos Produits</h2>
+            
+            <div class="category-filters">
+                <button class="category-btn active" data-category="all">Tous</button>
+                <button class="category-btn" data-category="vetements">Vêtements</button>
+                <button class="category-btn" data-category="alimentation">Alimentation</button>
+                <button class="category-btn" data-category="artisanat">Artisanat</button>
+                <button class="category-btn" data-category="electronique">Électronique</button>
+            </div>
+            
+            <div class="products-grid" id="productsGridPage">
+                <!-- Les produits seront générés par JavaScript -->
+            </div>
+        </section>
+    </section>
+
+    <!-- Page Connexion -->
+    <section id="connexion" class="page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2 class="auth-title">Connexion</h2>
+                    <p class="auth-subtitle">Accédez à votre compte MadaShop</p>
+                </div>
+                
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" class="form-control" placeholder="votre@email.mg" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="loginPassword">Mot de passe</label>
+                        <input type="password" id="loginPassword" class="form-control" placeholder="Votre mot de passe" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>Ou</span>
+                </div>
+                
+                <button class="btn btn-google" style="width: 100%;" onclick="loginWithGoogle()">
+                    <i class="fab fa-google"></i> Se connecter avec Google
+                </button>
+                
+                <div class="auth-footer">
+                    <p>Pas encore de compte ? <a class="auth-link" onclick="showPage('inscription')">S'inscrire</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Page Inscription -->
+    <section id="inscription" class="page">
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2 class="auth-title">Inscription</h2>
+                    <p class="auth-subtitle">Créez votre compte MadaShop</p>
+                </div>
+                
+                <form id="registerForm">
+                    <div class="form-group">
+                        <label for="registerName">Nom complet</label>
+                        <input type="text" id="registerName" class="form-control" placeholder="Votre nom complet" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerEmail">Email</label>
+                        <input type="email" id="registerEmail" class="form-control" placeholder="votre@email.mg" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPhone">Téléphone</label>
+                        <input type="tel" id="registerPhone" class="form-control" placeholder="+261 34 12 345 67" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerPassword">Mot de passe</label>
+                        <input type="password" id="registerPassword" class="form-control" placeholder="Créez un mot de passe" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="registerConfirmPassword">Confirmer le mot de passe</label>
+                        <input type="password" id="registerConfirmPassword" class="form-control" placeholder="Confirmez votre mot de passe" required>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i> S'inscrire
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>Ou</span>
+                </div>
+                
+                <button class="btn btn-google" style="width: 100%;" onclick="loginWithGoogle()">
+                    <i class="fab fa-google"></i> S'inscrire avec Google
+                </button>
+                
+                <div class="auth-footer">
+                    <p>Déjà un compte ? <a class="auth-link" onclick="showPage('connexion')">Se connecter</a></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Panier -->
+    <div class="cart-modal" id="cartModal">
+        <div class="cart-header">
+            <h3 class="cart-title">Votre Panier</h3>
+            <button class="close-cart" id="closeCart">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        
+        <div class="cart-items" id="cartItems">
+            <!-- Les articles du panier seront ajoutés ici -->
+        </div>
+        
+        <div class="cart-footer">
+            <div class="cart-total">
+                <span>Total:</span>
+                <span id="cartTotal">0 Ar</span>
+            </div>
+            <button class="btn btn-primary checkout-btn" id="checkoutBtn">
+                <i class="fas fa-credit-card"></i> Commander maintenant
+            </button>
+        </div>
+    </div>
+    
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>MadaShop</h3>
+                    <p>Votre boutique en ligne malgache de confiance. Produits authentiques, prix justes et service client exceptionnel.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Liens Rapides</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('accueil')">Accueil</a></li>
+                        <li><a onclick="showPage('produits')">Produits</a></li>
+                        <li><a href="#">Promotions</a></li>
+                        <li><a href="#">À propos</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Catégories</h3>
+                    <ul class="footer-links">
+                        <li><a onclick="showPage('produits')">Vêtements Traditionnels</a></li>
+                        <li><a onclick="showPage('produits')">Produits Alimentaires</a></li>
+                        <li><a onclick="showPage('produits')">Artisanat Local</a></li>
+                        <li><a onclick="showPage('produits')">Électronique</a></li>
+                        <li><a onclick="showPage('produits')">Beauté & Santé</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt"></i> Fort-dauphin, Anosy</li>
+                        <li><i class="fas fa-phone"></i> +261 34 93 494 85</li>
+                        <li><i class="fas fa-envelope"></i> contact@madashop.mg</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 MadaShop. Tous droits réservés. | Paiement sécurisé en Ariary</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Taux de conversion approximatif (1€ ≈ 4500 Ar)
+        const CONVERSION_RATE = 4500;
+
+        // Données des produits malgaches
+        const products = [
+            {
+                id: 1,
+                name: "Lamba landy",
+                description: "Écharpe traditionnelle malgache en soie sauvage, tissage artisanal",
+                price: 85000,
+                category: "vetements",
+                icon: "fas fa-scarf",
+                promo: true
+            },
+            {
+                id: 2,
+                name: "Vanille de Madagascar",
+                description: "Gousses de vanille pure de qualité premium, 50g",
+                price: 25000,
+                category: "alimentation",
+                icon: "fas fa-seedling",
+                promo: false
+            },
+            {
+                id: 3,
+                name: "Riz malagasy",
+                description: "Riz rouge de qualité supérieure, sac de 5kg",
+                price: 15000,
+                category: "alimentation",
+                icon: "fas fa-wheat-alt",
+                promo: true
+            },
+            {
+                id: 4,
+                name: "Sculpture sur bois",
+                description: "Sculpture artisanale en bois de palissandre, pièce unique",
+                price: 120000,
+                category: "artisanat",
+                icon: "fas fa-monument",
+                promo: false
+            },
+            {
+                id: 5,
+                name: "Huile essentielle de ravintsara",
+                description: "Huile essentielle 100% pure, flacon de 10ml",
+                price: 18000,
+                category: "alimentation",
+                icon: "fas fa-flask",
+                promo: false
+            },
+            {
+                id: 6,
+                name: "Téléphone Tecno",
+                description: "Smartphone Android avec double SIM, 64GB",
+                price: 350000,
+                category: "electronique",
+                icon: "fas fa-mobile-alt",
+                promo: true
+            },
+            {
+                id: 7,
+                name: "Chapeau en raphia",
+                description: "Chapeau traditionnel tissé main, protection UV",
+                price: 22000,
+                category: "vetements",
+                icon: "fas fa-hat-cowboy",
+                promo: false
+            },
+            {
+                id: 8,
+                name: "Miel de forêt",
+                description: "Miel pur de forêt malgache, pot de 500g",
+                price: 12000,
+                category: "alimentation",
+                icon: "fas fa-honey-pot",
+                promo: true
+            }
+        ];
+
+        // Panier
+        let cart = [];
+        let cartCount = 0;
+        let cartTotal = 0;
+        let currentUser = null;
+
+        // Éléments DOM
+        const productsGrid = document.getElementById('productsGrid');
+        const productsGridPage = document.getElementById('productsGridPage');
+        const cartIcon = document.getElementById('cartIcon');
+        const cartModal = document.getElementById('cartModal');
+        const closeCart = document.getElementById('closeCart');
+        const overlay = document.getElementById('overlay');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotalElement = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const categoryBtns = document.querySelectorAll('.category-btn');
+        const loginBtn = document.getElementById('loginBtn');
+        const userInfo = document.getElementById('userInfo');
+        const userAvatar = document.getElementById('userAvatar');
+        const userName = document.getElementById('userName');
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+
+        // Initialisation
+        document.addEventListener('DOMContentLoaded', function() {
+            renderProducts();
+            updateCartCount();
+            setupEventListeners();
+            checkAuthStatus();
+        });
+
+        // Navigation entre pages
+        function showPage(pageId) {
+            // Cacher toutes les pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Afficher la page demandée
+            document.getElementById(pageId).classList.add('active');
+            
+            // Si c'est la page produits, re-rendre les produits
+            if (pageId === 'produits') {
+                renderProductsPage();
+            }
+        }
+
+        // Formater le prix en Ariary
+        function formatPrice(price) {
+            return new Intl.NumberFormat('fr-MG', {
+                style: 'decimal',
+                minimumFractionDigits: 0
+            }).format(price) + ' Ar';
+        }
+
+        // Rendu des produits (page accueil)
+        function renderProducts(filterCategory = 'all') {
+            productsGrid.innerHTML = '';
+            
+            const filteredProducts = filterCategory === 'all' 
+                ? products.slice(0, 4) // Seulement 4 produits sur la page d'accueil
+                : products.filter(product => product.category === filterCategory).slice(0, 4);
+            
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                productsGrid.appendChild(productCard);
+            });
+        }
+
+        // Rendu des produits (page produits)
+        function renderProductsPage(filterCategory = 'all') {
+            productsGridPage.innerHTML = '';
+            
+            const filteredProducts = filterCategory === 'all' 
+                ? products 
+                : products.filter(product => product.category === filterCategory);
+            
+            filteredProducts.forEach(product => {
+                const productCard = createProductCard(product);
+                productsGridPage.appendChild(productCard);
+            });
+        }
+
+        // Créer une carte produit
+        function createProductCard(product) {
+            const productCard = document.createElement('div');
+            productCard.className = 'product-card';
+            productCard.innerHTML = `
+                ${product.promo ? '<div class="promo-badge">Promo</div>' : ''}
+                <div class="product-image">
+                    <i class="${product.icon}"></i>
+                </div>
+                <div class="product-info">
+                    <h3 class="product-title">${product.name}</h3>
+                    <p class="product-description">${product.description}</p>
+                    <div class="product-price">${formatPrice(product.price)}</div>
+                    <div class="product-actions">
+                        <button class="btn btn-primary btn-sm add-to-cart" data-id="${product.id}">
+                            <i class="fas fa-cart-plus"></i> Ajouter
+                        </button>
+                        <button class="btn btn-outline btn-sm">
+                            <i class="fas fa-info-circle"></i> Détails
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            // Ajouter l'événement au bouton "Ajouter au panier"
+            const addToCartBtn = productCard.querySelector('.add-to-cart');
+            addToCartBtn.addEventListener('click', function() {
+                const productId = parseInt(this.getAttribute('data-id'));
+                addToCart(productId);
+            });
+            
+            return productCard;
+        }
+
+        // Gestion du panier
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            
+            if (product) {
+                const existingItem = cart.find(item => item.id === productId);
+                
+                if (existingItem) {
+                    existingItem.quantity += 1;
+                } else {
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        icon: product.icon,
+                        quantity: 1
+                    });
+                }
+                
+                updateCartCount();
+                renderCartItems();
+                showNotification(`${product.name} ajouté au panier`);
+            }
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(item => item.id !== productId);
+            updateCartCount();
+            renderCartItems();
+        }
+
+        function updateCartCount() {
+            cartCount = cart.reduce((total, item) => total + item.quantity, 0);
+            document.querySelector('.cart-count').textContent = cartCount;
+        }
+
+        function renderCartItems() {
+            cartItems.innerHTML = '';
+            cartTotal = 0;
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p style="text-align: center; padding: 20px;">Votre panier est vide</p>';
+                cartTotalElement.textContent = '0 Ar';
+                return;
+            }
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                cartTotal += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div class="cart-item-image">
+                        <i class="${item.icon}"></i>
+                    </div>
+                    <div class="cart-item-details">
+                        <div class="cart-item-title">${item.name}</div>
+                        <div class="cart-item-price">${formatPrice(item.price)}</div>
+                        <div class="cart-item-actions">
+                            <button class="quantity-btn decrease-quantity" data-id="${item.id}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="cart-item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn increase-quantity" data-id="${item.id}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <button class="remove-item" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartTotalElement.textContent = formatPrice(cartTotal);
+            
+            // Ajouter les événements aux boutons du panier
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateQuantity(productId, -1);
+                });
+            });
+            
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    updateQuantity(productId, 1);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const productId = parseInt(this.getAttribute('data-id'));
+                    removeFromCart(productId);
+                });
+            });
+        }
+
+        function updateQuantity(productId, change) {
+            const item = cart.find(item => item.id === productId);
+            
+            if (item) {
+                item.quantity += change;
+                
+                if (item.quantity <= 0) {
+                    removeFromCart(productId);
+                } else {
+                    updateCartCount();
+                    renderCartItems();
+                }
+            }
+        }
+
+        // Configuration des événements
+        function setupEventListeners() {
+            // Panier
+            cartIcon.addEventListener('click', openCart);
+            closeCart.addEventListener('click', closeCartModal);
+            overlay.addEventListener('click', closeCartModal);
+            checkoutBtn.addEventListener('click', checkout);
+            
+            // Filtres de catégorie
+            categoryBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const category = this.getAttribute('data-category');
+                    
+                    // Mettre à jour les boutons actifs
+                    categoryBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filtrer les produits
+                    renderProducts(category);
+                    renderProductsPage(category);
+                });
+            });
+            
+            // Formulaires d'authentification
+            loginForm.addEventListener('submit', handleLogin);
+            registerForm.addEventListener('submit', handleRegister);
+        }
+
+        function openCart() {
+            cartModal.classList.add('active');
+            overlay.classList.add('active');
+            renderCartItems();
+        }
+
+        function closeCartModal() {
+            cartModal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Votre panier est vide!');
+                return;
+            }
+            
+            if (!currentUser) {
+                showNotification('Veuillez vous connecter pour commander');
+                showPage('connexion');
+                closeCartModal();
+                return;
+            }
+            
+            alert(`Commande confirmée! Montant: ${formatPrice(cartTotal)}\n\nMerci pour votre achat chez MadaShop, ${currentUser.name}!`);
+            cart = [];
+            updateCartCount();
+            renderCartItems();
+            closeCartModal();
+        }
+
+        // Gestion de l'authentification
+        function checkAuthStatus() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                updateAuthUI();
+            }
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            // Simulation de vérification (en production, ça serait une requête API)
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            const user = users.find(u => u.email === email && u.password === password);
+            
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                updateAuthUI();
+                showNotification(`Bienvenue ${user.name} !`);
+                showPage('accueil');
+            } else {
+                showNotification('Email ou mot de passe incorrect');
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('registerName').value;
+            const email = document.getElementById('registerEmail').value;
+            const phone = document.getElementById('registerPhone').value;
+            const password = document.getElementById('registerPassword').value;
+            const confirmPassword = document.getElementById('registerConfirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                showNotification('Les mots de passe ne correspondent pas');
+                return;
+            }
+            
+            // Vérifier si l'utilisateur existe déjà
+            const users = JSON.parse(localStorage.getItem('users') || '[]');
+            if (users.find(u => u.email === email)) {
+                showNotification('Un compte avec cet email existe déjà');
+                return;
+            }
+            
+            // Créer le nouvel utilisateur
+            const newUser = {
+                id: Date.now(),
+                name,
+                email,
+                phone,
+                password,
+                avatar: name.charAt(0).toUpperCase()
+            };
+            
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            currentUser = newUser;
+            localStorage.setItem('currentUser', JSON.stringify(newUser));
+            updateAuthUI();
+            showNotification(`Compte créé avec succès, bienvenue ${name} !`);
+            showPage('accueil');
+        }
+
+        function loginWithGoogle() {
+            // Simulation de connexion Google
+            const googleUser = {
+                id: 'google_' + Date.now(),
+                name: 'Utilisateur Google',
+                email: 'googleuser@example.com',
+                avatar: 'G'
+            };
+            
+            currentUser = googleUser;
+            localStorage.setItem('currentUser', JSON.stringify(googleUser));
+            updateAuthUI();
+            showNotification(`Connexion Google réussie !`);
+            showPage('accueil');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('currentUser');
+            updateAuthUI();
+            showNotification('Déconnexion réussie');
+            showPage('accueil');
+        }
+
+        function updateAuthUI() {
+            if (currentUser) {
+                loginBtn.style.display = 'none';
+                userInfo.style.display = 'flex';
+                userAvatar.textContent = currentUser.avatar;
+                userName.textContent = currentUser.name;
+                
+                // Ajouter le bouton de déconnexion
+                if (!document.getElementById('logoutBtn')) {
+                    const logoutBtn = document.createElement('button');
+                    logoutBtn.id = 'logoutBtn';
+                    logoutBtn.className = 'btn btn-outline btn-sm';
+                    logoutBtn.innerHTML = '<i class="fas fa-sign-out-alt"></i>';
+                    logoutBtn.title = 'Déconnexion';
+                    logoutBtn.addEventListener('click', logout);
+                    userInfo.appendChild(logoutBtn);
+                }
+            } else {
+                loginBtn.style.display = 'flex';
+                userInfo.style.display = 'none';
+            }
+        }
+
+        function showNotification(message) {
+            // Créer une notification temporaire
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: var(--success);
+                color: white;
+                padding: 15px 20px;
+                border-radius: var(--border-radius);
+                box-shadow: var(--shadow-lg);
+                z-index: 1001;
+                animation: slideIn 0.3s ease;
+            `;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Ajouter des styles d'animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
